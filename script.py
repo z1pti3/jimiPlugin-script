@@ -1,11 +1,12 @@
 from core import plugin, model
 
 class _script(plugin._plugin):
-    version = 1.1
+    version = 1.2
 
     def install(self):
         # Register models
         model.registerModel("script","_script","_action","plugins.script.models.action")
+        model.registerModel("scriptBlock","_scriptBlock","_trigger","plugins.script.models.action")
         return True
 
     def uninstall(self):
@@ -13,3 +14,6 @@ class _script(plugin._plugin):
         model.deregisterModel("script","_script","_action","plugins.script.models.action")
         return True
     
+    def upgrade(self,LatestPluginVersion):
+        if self.version < 1.2:
+            model.registerModel("scriptBlock","_scriptBlock","_trigger","plugins.script.models.action")
