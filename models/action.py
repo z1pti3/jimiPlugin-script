@@ -37,8 +37,11 @@ class _scriptBlock(action._action):
     scriptName = str()
     scriptBlock = str()
 
+    def __init__(self):
+        self.scriptBlock = "def run(data):\n\t# Insert Code\n\treturn (True,0,data)"
+
     def run(self,data,persistentData,actionResult):
-        if self.lastUpdateTime > self.lastSave:
+        if self.lastUpdateTime > self.lastSave or self.lastUpdateTime == 0:
             scriptFilename = str(Path("plugins/script/scripts/{0}.py".format(self.scriptName)))
             if not scriptFilename.startswith("plugins/script/scripts/") and not scriptFilename.startswith("plugins\\script\\scripts\\"):
                 return actionResult
