@@ -29,30 +29,19 @@ class _scriptBlock(action._action):
        def generate(self,classObject):
            formData = []
            formData.append({"type" : "input", "schemaitem" : "name", "textbox" : classObject.name})
-           formData.append({"type" : "input", "schemaitem" : "scriptName", "textbox" : classObject.scriptName})
            formData.append({"type" : "script", "schemaitem" : "scriptBlock", "textbox" : classObject.scriptBlock})
            return formData
 
-    lastSave = int()
-    scriptName = str()
     scriptBlock = str()
 
     def __init__(self):
         self.scriptBlock = "def run(data):\n\t# Insert Code\n\treturn (True,0,data)"
 
     def run(self,data,persistentData,actionResult):
-        if self.lastUpdateTime > self.lastSave or self.lastUpdateTime == 0:
-            scriptFilename = str(Path("plugins/script/scripts/{0}.py".format(self.scriptName)))
-            if not scriptFilename.startswith("plugins/script/scripts/") and not scriptFilename.startswith("plugins\\script\\scripts\\"):
-                return actionResult
-            f = open(scriptFilename,'w')
-            f.write(self.scriptBlock)
-            f.close()
-            self.lastSave = time.time()
-            self.update(["lastSave"])
-        
-        mod = __import__("plugins.script.scripts.{0}".format(self.scriptName), fromlist=["run"])
-        actionResult["result"], actionResult["rc"], data = mod.run(data)
+        scriptBlock = helpers.evalString(self.scriptBlock,{"data" : data}).replace("def run(data):","def {0}(data):".format(self.name.replace(" ","")))
+        exec(scriptBlock)
+        actionResult["result"], actionResult["rc"], data = locals()[self.name.replace(" ","")](data)
+
         # Support for increasing event to events
         if "events" in data:
             for event in data["events"]:
