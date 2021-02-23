@@ -1,7 +1,7 @@
 from core import plugin, model
 
 class _script(plugin._plugin):
-    version = 2.0
+    version = 3.0
 
     def install(self):
         # Register models
