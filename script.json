@@ -1,7 +1,7 @@
 {
     "name" : "script",
     "author" : "z1p",
-    "version" : 3.0,
+    "version" : 3.11,
     "categories" : ["automation"],
     "description" : "Runs a defined python script.",
     "icon" : null,
@@ -17,45 +17,13 @@
         
     },
     "actions" : {
-        "script" : {
-            "display_name" : "script",
-            "className" : "_script",
-            "class_location" : "models.action",
-            "description" : "Runs a defined python script from within /plugin/script/scripts/<scriptName>.py, this script must have a function called run and return a tuple (Result,ExitCode,data) as per the example script provided.",
-            "fields" : [
-                { "schema_item" : "scriptName", "schema_value" : "scriptName", "type" : "input", "label" : "scriptName", "description" : "Defines the name of the script within /plugin/script/scripts/.", "required" : true, "jimi_syntax" : false }
-            ],
-            "data_out" : {
-                "result" : { 
-                    "description" : "Returns the scripts True/False.",
-                    "type" : "boolean",
-                    "always_present" : true,
-                    "values" : {
-                    }
-                },
-                "rc" : {
-                    "description" : "Returns the scripts exit code.",
-                    "type" : "number",
-                    "always_present" : true,
-                    "values" : {
-                    }
-                },
-                "data" : {
-                    "description" : "Updates data with the value provided by the script.",
-                    "type" : "json",
-                    "always_present" : true,
-                    "values" : {
-                    }
-                }
-            }
-        },
         "scriptBlock" : {
             "display_name" : "scriptBlock",
             "className" : "_scriptBlock",
             "class_location" : "models.action",
             "description" : "Executes a provided python script block string provided to the object.",
             "fields" : [
-                { "schema_item" : "scriptBlock", "schema_value" : "scriptBlock", "type" : "input", "label" : "scriptBlock", "description" : "A function formatted script block that must contain the run function as per the initial value of this field.", "required" : true, "jimi_syntax" : true }
+                { "schema_item" : "scriptBlock", "schema_value" : "scriptBlock", "type" : "script", "label" : "scriptBlock", "description" : "A function formatted script block that must contain the run function as per the initial value of this field.", "required" : true, "jimi_syntax" : true }
             ],
             "data_out" : {
                 "result" : { 
